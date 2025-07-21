@@ -135,8 +135,8 @@ void transfile_to_array(const unsigned char *data, long len, int line_cnt, trans
 						continue;
 					}
 				if (p_tmp[0] == 0x0D && p_tmp[1] == 0x00) { // New line detected, go out
-					tab = 0;
-					continue;
+						tab = 0;
+						continue;
 				}
 				
 				if (trans_idx == 1) {
@@ -162,6 +162,20 @@ void transfile_to_array(const unsigned char *data, long len, int line_cnt, trans
 			} while (tab);
 
 			in_arr[i].tr_len = trans_len;
+
+			// Print parsed string info
+			printf("\nString #%d:\n", i+1);
+			printf("Original length: %ld\n", in_arr[i].len);
+			printf("Original text: ");
+			for(int k=0; k<in_arr[i].len; k+=2) {
+				if(in_arr[i].orig[k] != 0) printf("%c", in_arr[i].orig[k]);
+			}
+			printf("\nTranslation length: %ld\n", in_arr[i].tr_len);
+			printf("Translation text: ");
+			for(int k=0; k<in_arr[i].tr_len; k+=2) {
+				if(in_arr[i].tr1[k] != 0) printf("%c", in_arr[i].tr1[k]);
+			}
+			printf("\n");
 		}
 		
 		if ((data - start_addr) > len) break;
