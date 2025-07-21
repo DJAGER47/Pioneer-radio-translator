@@ -15,7 +15,7 @@ char tr1[1024] = { 0 };
 
 void hex2str(long input, char output[16]) {
 	char tmpstr[9] = { 0 };
-	sprintf(tmpstr, "%08X", input);
+	sprintf(tmpstr, "%08lX", input);
 	for (int i = 0; i < 8; i++) {
 		output[2 * i] = tmpstr[i];
 	};
@@ -89,8 +89,8 @@ void transfile_to_array(const unsigned char *data, long len, int line_cnt, trans
 			if (p_tmp[0] == 0x0D && p_tmp[1] == 0x00) { //New line again
 				continue;
 			}
-			else 
-			{	
+			else
+			{
 				new_line = 0;
 				if (first_line == 1) {
 					first_line = 0;
@@ -132,8 +132,8 @@ void transfile_to_array(const unsigned char *data, long len, int line_cnt, trans
 				if (p_tmp[0] == 0x09 && p_tmp[1] == 0x00) { // Next TAB detected, go out
 					tab = 0;
 					trans_idx = 2;
-					continue;
-				}
+						continue;
+					}
 				if (p_tmp[0] == 0x0D && p_tmp[1] == 0x00) { // New line detected, go out
 					tab = 0;
 					continue;
@@ -267,7 +267,7 @@ int main(int argc, char *argv[])
 	fread(p_trans, 1, trans_lenght, ftr);
 
 	transfile_to_array(p_trans, trans_lenght, trans_line_idx_count, in_arr);
-
+	
 	fin = fopen(datfile, "rb");
 	unsigned char *p_out = malloc(OFFSET);
 	fread(p_out, 1, OFFSET, fin);
@@ -352,7 +352,7 @@ int main(int argc, char *argv[])
 						fseek(fout, 0L, SEEK_END);
 						fwrite(p_out, 1, in_bytes_as_is, fout);
 						if (tr_arr[0].len != tr_arr[0].tr_len) {
-							printf("WARNING!!! Translation string is not equal to original string:\norig_len = %2X orig = %s \ntrsn_len = %2X tran = ", tr_arr[0].len, &tr_arr[0].orig, tr_arr[0].tr_len);
+							printf("WARNING!!! Translation string is not equal to original string:\norig_len = %2lX orig = %s \ntrsn_len = %2lX tran = ", tr_arr[0].len, tr_arr[0].orig, tr_arr[0].tr_len);
 							for (int k = 0; k < tr_arr[0].len;k++) {
 								if(tr_arr[0].tr1[k] != 0x00) printf("%c", tr_arr[0].tr1[k]);
 							}
