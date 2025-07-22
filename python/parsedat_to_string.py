@@ -1,4 +1,5 @@
 import struct
+from extract_offset_blocklen import extract_offset_blocklen
 
 def hex2str(input_num, output):
     """Аналог функции hex2str из C-кода"""
@@ -7,8 +8,11 @@ def hex2str(input_num, output):
         output[2*i] = ord(tmp[i])
 
 def parse_dat_file(input_path, output_path):
-    OFFSET = 0x2671F4
-    BLOCK_LEN = 0x3234D7 - OFFSET + 1
+    OFFSET , BLOCK_LEN = extract_offset_blocklen(input_path)
+    print(f"OFFSET: 0x{OFFSET:08X}")
+    print(f"BLOCK_LEN: 0x{BLOCK_LEN:08X}")
+    # OFFSET = 0x2671F4
+    # BLOCK_LEN = 0x3234D7 - OFFSET + 1
     
     with open(input_path, 'rb') as fin, open(output_path, 'wb') as fout:
         # Write BOM
@@ -76,4 +80,4 @@ def parse_dat_file(input_path, output_path):
                 index += 2
 
 if __name__ == "__main__":
-    parse_dat_file("../work/initDB.dat", "parsed1.txt")
+    parse_dat_file("../work/initDB.dat", "../work/parsed1.txt")

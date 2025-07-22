@@ -2,5 +2,6 @@ makever
 parsedat
 translate
 work/*
-python/parsed1_c.txt
-python/parsed1_py.txt
+**parsed1_c.txt
+**parsed1_py.txt
+*/__pycache__/*
