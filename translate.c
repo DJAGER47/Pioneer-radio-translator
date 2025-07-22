@@ -112,6 +112,7 @@ void transfile_to_array(const unsigned char *data, long len, int line_cnt, trans
           in_arr[i].len = 0;
           trans_idx     = 0;
           bad_strings++;
+          printf("Bad string #%d\n", i + 1);
         } else {
           in_arr[i].len = l_str_len;
           trans_idx     = 1;
@@ -172,20 +173,20 @@ void transfile_to_array(const unsigned char *data, long len, int line_cnt, trans
 
       // Print parsed string info
       if (show) {
-        printf("\nString #%d:\n", i + 1);
-        printf("Original length: %ld\n", in_arr[i].len);
-        printf("Original text: ");
-        for (int k = 0; k < in_arr[i].len; k += 2) {
-          if (in_arr[i].orig[k] != 0)
-            printf("%c", in_arr[i].orig[k]);
-        }
-        printf("\nTranslation length: %ld\n", in_arr[i].tr_len);
-        printf("Translation text: ");
-        for (int k = 0; k < in_arr[i].tr_len; k += 2) {
-          if (in_arr[i].tr1[k] != 0)
-            printf("%c", in_arr[i].tr1[k]);
-        }
-        printf("\n");
+        // printf("\nString #%d:\n", i + 1);
+        // printf("Original length: %ld\n", in_arr[i].len);
+        // printf("Original text: ");
+        // for (int k = 0; k < in_arr[i].len; k += 2) {
+        //   if (in_arr[i].orig[k] != 0)
+        //     printf("%c", in_arr[i].orig[k]);
+        // }
+        // printf("\nTranslation length: %ld\n", in_arr[i].tr_len);
+        // printf("Translation text: ");
+        // for (int k = 0; k < in_arr[i].tr_len; k += 2) {
+        //   if (in_arr[i].tr1[k] != 0)
+        //     printf("%c", in_arr[i].tr1[k]);
+        // }
+        // printf("\n");
       }
     }
 
