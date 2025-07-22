@@ -9,8 +9,6 @@ def extract_offset_blocklen(file_path):
         
         # Вычисляем BLOCK_LEN
         block_len = len(data) - offset
-
-        print(f"len: 0x{ len(data):08X}")
         
         return offset, block_len
 
