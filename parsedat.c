@@ -19,7 +19,7 @@ int main(int argc, char *argv[])  // Parse Japanese AVIC-RZ09 (and similar) data
   const long BLOCK_LEN = (long)0x3234D7 - OFFSET + 1;
   FILE *fin, *fout, *fout1;
 
-  char *datfile    = "initDB.dat";
+  char *datfile    = "work/initDB.dat";
   char fffe[2]     = {0xFF, 0xFE};
   char div[2]      = {0x09, 0x00};  // TAB=0x09  "=0x22
   char divcrlf[6]  = {0x09, 0x00, 0x0D, 0x00, 0x0A, 0x00};
