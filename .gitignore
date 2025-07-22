@@ -2,3 +2,5 @@ makever
 parsedat
 translate
 work/*
+python/parsed1_c.txt
+python/parsed1_py.txt

@@ -76,4 +76,4 @@ def parse_dat_file(input_path, output_path):
                 index += 2
 
 if __name__ == "__main__":
-    parse_dat_file("work/initDB.dat", "parsed1.txt")
+    parse_dat_file("../work/initDB.dat", "parsed1.txt")

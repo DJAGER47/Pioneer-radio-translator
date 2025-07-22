@@ -4,9 +4,9 @@ import filecmp
 
 def compile_c_program():
     """Компиляция оригинальной C-программы если нужно"""
-    if not os.path.exists('parsedat'):
+    if not os.path.exists('../parsedat'):
         print("Компиляция parsedat.c...")
-        result = subprocess.run(['gcc', 'parsedat.c', '-o', 'parsedat'], capture_output=True)
+        result = subprocess.run(['gcc', '../C/parsedat.c', '-o', '../parsedat'], capture_output=True)
         if result.returncode != 0:
             print("Ошибка компиляции:")
             print(result.stderr.decode())
@@ -17,11 +17,11 @@ def run_tests():
     """Запуск тестов"""
     # Запуск C-версии
     if compile_c_program():
-        subprocess.run(['./parsedat'], check=True)
+        subprocess.run(['../parsedat'], check=True)
         os.rename('parsed1.txt', 'parsed1_c.txt')
     
     # Запуск Python-версии
-    subprocess.run(['python', 'parsedat.py'], check=True)
+    subprocess.run(['python', 'parsedat_to_string.py'], check=True)
     os.rename('parsed1.txt', 'parsed1_py.txt')
     
     # Сравнение результатов
