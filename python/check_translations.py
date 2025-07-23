@@ -10,13 +10,13 @@ def check_translations(input_file):
         data = json.load(f)
     
     all_correct = True
+    skip = 0
     
     for item in data:
-        if not item.get('translation'):
-            continue
             
-        if len(item['translation']) == 0:
-            print(f"⚠️ Внимание: Пустой перевод для строки: '{item['original']}'")
+        if item['translation'] == "":
+            print(f"⚠️ Внимание нет перевода: '{item['original']}'")
+            skip += 1
             continue
             
         original_len = len(item['original']) * 2
@@ -35,7 +35,7 @@ def check_translations(input_file):
             # print(f"✅ {item['original']} -> {item['translation']}")
     
     if all_correct:
-        print("✅ Все переводы корректны!")
+        print(f"✅ Все переводы корректны! ⚠️ Пропущено {skip}")
     else:
         print("❌ Обнаружены ошибки в переводах")
 
