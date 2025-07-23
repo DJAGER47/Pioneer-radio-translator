@@ -15,17 +15,21 @@ def check_translations(input_file):
         if not item.get('translation'):
             continue
             
-        original_len = len(item['original'])
-        translation_len = len(item['translation'])
+        if len(item['translation']) == 0:
+            print(f"⚠️ Внимание: Пустой перевод для строки: '{item['original']}'")
+            continue
+            
+        original_len = len(item['original']) * 2
+        translation_len = len(item['translation']) * 2
         expected_size = int(item['size'], 16)
         
         # Проверяем соответствие длин
-        size_ok = (original_len * 2 == expected_size)
-        len_ok = (original_len == translation_len)
+        size_ok = (original_len == expected_size)
+        len_ok = (0 < translation_len <= original_len)  # Перевод может быть короче оригинала, но не пустым
         
         if not (size_ok and len_ok):
             all_correct = False
-            print(f"❌ Размер: {item['size']}({original_len*2:03}) | "
+            print(f"❌ Размер: {item['size']}({original_len:03}) | "
                   f"'{item['original']}':{original_len} -> '{item['translation']}':{translation_len}")
         # else:
             # print(f"✅ {item['original']} -> {item['translation']}")
