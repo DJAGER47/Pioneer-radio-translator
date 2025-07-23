@@ -18,6 +18,8 @@ python python/filter_japanese.py -i work/merge.json -j work/japanese.json -o wor
 python python/check_translations.py -i work/japanese.json
 
 
+python python/3_translate.py -i work/initDB.dat -t work/japanese.json -o work/initDB_patch.dat
+
 # ./translate
 
 # cp -f initDB_out.dat initDB.dat
