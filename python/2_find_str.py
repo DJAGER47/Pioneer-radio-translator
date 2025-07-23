@@ -22,10 +22,12 @@ def parse_dat_file(input_path, output_path):
         for i in range(0, len(data), 2):
             p = data[i:i+2]
             
+            #  string start
             if p == b'\xFF\xFF':
                 index = 0
                 continue
-                
+
+            #  string end
             if p == b'\x00\x00':
                 if index > 0:
                     # Skip image links
@@ -50,12 +52,21 @@ def parse_dat_file(input_path, output_path):
                     if index > 2 and (str_buf[0] == 0x1B or str_buf[0] == 0x23) and str_buf[1] == 0x00:
                         index = 0
                         continue
-                    
+
+                    hex2str(OFFSET + i - index, tmp_str)
+                    address = tmp_str.decode('utf-16le').strip('\x00')
+
                     hex2str(index, tmp_str)
                     size = tmp_str.decode('utf-16le').strip('\x00')
+
                     original = str_buf[:index].decode('utf-16le')
+
+                    expected_len = len(original) * 2  # UTF-16 uses 2 bytes per character
+                    if int(size, 16) != expected_len:
+                        print(f"Warning: size {size} (hex) != expected length {expected_len} (strlen {len(original)} * 2)")
                     
                     strings.append({
+                        "address": address,
                         "size": size,
                         "original": original,
                         "translation": ""

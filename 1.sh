@@ -10,7 +10,8 @@ wine dumpromx.exe -d work/DUMP -v -5 work/output.nb0 > work/output.txt
 cp work/DUMP/initDB.dat work/
 rm -rf work/DUMP
 
-python python/2_find_str.py -i work/initDB.dat -o work/finded_str.txt
+python python/2_find_str.py -i work/initDB.dat -o work/finded_str.json
+python python/filter_japanese.py -i work/finded_str.json -j work/japanese.json -o work/other.json
 
 # cp ../translate translate
 # cp ../translation.txt translation.txt
