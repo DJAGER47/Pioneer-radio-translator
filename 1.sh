@@ -11,16 +11,13 @@ cp work/DUMP/initDB.dat work/
 rm -rf work/DUMP
 
 python python/txt2json.py -i translation.txt -o work/4pda_translation.json
-
 python python/2_find_str.py -i work/initDB.dat -o work/finded_str.json
-
 python python/merge_translations.py -i work/finded_str.json -t work/4pda_translation.json -o work/merge.json
 python python/filter_japanese.py -i work/merge.json -j work/japanese.json -o work/other.json
 
 python python/check_translations.py -i work/japanese.json
 
-# cp ../translate translate
-# cp ../translation.txt translation.txt
+
 # ./translate
 
 # cp -f initDB_out.dat initDB.dat
