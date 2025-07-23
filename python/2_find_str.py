@@ -1,5 +1,6 @@
 import struct
 import argparse
+import json
 from lib import hex2str, extract_offset_blocklen
 
 
@@ -8,15 +9,14 @@ def parse_dat_file(input_path, output_path):
     print(f"OFFSET: 0x{OFFSET:08X}")
     print(f"BLOCK_LEN: 0x{BLOCK_LEN:08X}")
     
-    with open(input_path, 'rb') as fin, open(output_path, 'wb') as fout:
-        # Write BOM
-        fout.write(b'\xFF\xFE')
+    strings = []
+    with open(input_path, 'rb') as fin:
         
         fin.seek(OFFSET)
         data = fin.read(BLOCK_LEN)
         
         index = 0
-        str_buf = bytearray(1024)
+        str_buf = bytearray(2048)
         tmp_str = bytearray(16)
         
         for i in range(0, len(data), 2):
@@ -51,19 +51,15 @@ def parse_dat_file(input_path, output_path):
                         index = 0
                         continue
                     
-                    # Write address
-                    # hex2str(OFFSET + i - index, tmp_str)
-                    # fout.write(tmp_str)
-                    # fout.write(b'\x09\x00')
-                    
-                    # Write length (in bytes)
                     hex2str(index, tmp_str)
-                    fout.write(tmp_str)
-                    fout.write(b'\x09\x00')
+                    size = tmp_str.decode('utf-16le').strip('\x00')
+                    original = str_buf[:index].decode('utf-16le')
                     
-                    # Write string content
-                    fout.write(str_buf[:index])
-                    fout.write(b'\x09\x00\x0D\x00\x0A\x00')
+                    strings.append({
+                        "size": size,
+                        "original": original,
+                        "translation": ""
+                    })
                     
                 index = 0
                 continue
@@ -72,6 +68,14 @@ def parse_dat_file(input_path, output_path):
                 str_buf[index] = p[0]
                 str_buf[index+1] = p[1]
                 index += 2
+
+    # Сортируем строки по полю original
+    strings_sorted = sorted(strings, key=lambda x: x['original'])
+    
+    print(f"Найдено строк: {len(strings_sorted)}")
+    
+    with open(output_path, 'w', encoding='utf-16-le') as fout:
+        json.dump(strings_sorted, fout, ensure_ascii=False, indent=4)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Parse translation file from UTF-16 LE format')

@@ -14,10 +14,8 @@ def extract_offset_blocklen(file_path):
         
         # Вычисляем BLOCK_LEN
         block_len = len(data) - offset
-        
+        # use
+        #     offset, block_len = extract_offset_blocklen("work/initDB.dat")
+        #     print(f"OFFSET: 0x{offset:08X}")
+        #     print(f"BLOCK_LEN: 0x{block_len:08X}")
         return offset, block_len
-
-# if __name__ == "__main__":
-#     offset, block_len = extract_offset_blocklen("work/initDB.dat")
-#     print(f"OFFSET: 0x{offset:08X}")
-#     print(f"BLOCK_LEN: 0x{block_len:08X}")

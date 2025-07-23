@@ -1,13 +1,16 @@
 #!/bin/bash
+
+rm -r work/*
+
 cp /home/plavrovskiy/Downloads/jap/AVICRZ09/PLATFORM/PS140PLT.PRG work
 
-python python/trim_file.py -i work/PS140PLT.PRG -o work/output.nb0
+python python/1_trim_file.py -i work/PS140PLT.PRG -o work/output.nb0
 mkdir work/DUMP
 wine dumpromx.exe -d work/DUMP -v -5 work/output.nb0 > work/output.txt
 cp work/DUMP/initDB.dat work/
-# rm -rf DUMP
+rm -rf work/DUMP
 
-python python/parsedat_to_string.py 
+python python/2_find_str.py -i work/initDB.dat -o work/finded_str.txt
 
 # cp ../translate translate
 # cp ../translation.txt translation.txt
