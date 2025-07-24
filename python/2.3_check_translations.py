@@ -15,7 +15,7 @@ def check_translations(input_file):
     for item in data:
             
         if item['translation'] == "":
-            print(f"⚠️ Внимание нет перевода: '{item['original']}'")
+            # print(f"⚠️ Внимание нет перевода: '{item['original']}'")
             skip += 1
             continue
             
@@ -35,7 +35,7 @@ def check_translations(input_file):
             # print(f"✅ {item['original']} -> {item['translation']}")
     
     if all_correct:
-        print(f"✅ Все переводы корректны! ⚠️ Пропущено {skip}")
+        print(f"✅ Все переводы корректны! ⚠️  Пропущено {skip}")
     else:
         print("❌ Обнаружены ошибки в переводах")
 

@@ -16,6 +16,9 @@ def main():
     with open(args.input, 'rb') as f:
         data = bytearray(f.read())
 
+    count = 0
+    skip = 0
+    add = 0
     for item in translations:
         if not all(key in item for key in ['address', 'original', 'size', 'translation']):
             print(f"❌ Ошибка: Сломан {args.translations}")
@@ -34,22 +37,27 @@ def main():
 
         # Verify translation size
         if len(translation) > size:
-            print(f"❌ Ошибка: Перевод слишком большой {translation}"
+            print(f"❌ Ошибка: Перевод слишком большой {translation}")
             exit(-1)
 
-        if translation == "":
+        if len(translation) == 0 or translation == "":
             # пропускаем, перевода нету
+            skip += 1
             continue
 
         if len(translation) < size:
             # Дополняем " ", перевод короче
             translation += b'\x00' * (size - len(translation))
+            add += 1
 
         data[address:address+size] = translation
+        count += 1
 
 
     with open(args.output, 'wb') as f:
         f.write(data)
+
+    print(f"✅ Перевели строк {count}! ⚠️  Пропустили {skip}, дополняли нулями {add}")
 
 if __name__ == '__main__':
     main()
