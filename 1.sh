@@ -14,8 +14,11 @@ python python/2_find_str.py -i work/initDB.dat -o work/finded_str.json
 python python/2.1_txt2json.py -i translation.txt -o work/4pda_translation.json
 python python/2.2_merge_translations.py -i work/finded_str.json -t work/4pda_translation.json -o work/merge.json
 python python/2.3_check_translations.py -i work/merge.json
+# python python/2.3_check_translations.py -i work/merge_edit.json
 
 python python/3_translate.py -i work/initDB.dat -t work/merge.json -o work/initDB_patch.dat
+
+# python python/edit_translation.py -n 0 -i work/merge.json -o work/merge_edit.json
 
 # cp -f initDB_out.dat initDB.dat
 # wine ../dumpromx.exe -a initDB.dat output.nb0

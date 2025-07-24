@@ -22,7 +22,7 @@ def main():
     for item in translations:
         if not all(key in item for key in ['address', 'original', 'size', 'translation']):
             print(f"❌ Ошибка: Сломан {args.translations}")
-            exit(-1)
+            exit(1)
 
         address = int(item['address'], 16)
         original = item['original'].encode('utf-16-le')
@@ -33,12 +33,12 @@ def main():
         original_in_file = data[address:address+size]
         if original_in_file != original:
             print(f"❌ Ошибка: Не соответствует оригинальный текст {original_in_file}")
-            exit(-1)
+            exit(1)
 
         # Verify translation size
         if len(translation) > size:
             print(f"❌ Ошибка: Перевод слишком большой {translation}")
-            exit(-1)
+            exit(1)
 
         if len(translation) == 0 or translation == "":
             # пропускаем, перевода нету
