@@ -20,7 +20,7 @@ def read_mode(input_file, index):
     
     print(f"Запись #{index}: len {int(item['size'], 16)/2}"
           f"\nОригинал: {item['original']}"
-          f"\n Перевод: {item['translation']}")
+          f"\nПеревод: {item['translation']}")
 
 def extract_placeholders(text):
     """Извлекает все подстановки вида %d, %x, %s и т.д. из текста"""
