@@ -1,6 +1,7 @@
 import argparse
 import json
 import sys
+import re
 
 def read_mode(input_file, index):
     """Режим чтения: выводит запись-оригинал-текст"""
@@ -21,6 +22,12 @@ def read_mode(input_file, index):
           f"\nОригинал: {item['original']}"
           f"\n Перевод: {item['translation']}")
 
+def extract_placeholders(text):
+    """Извлекает все подстановки вида %d, %x, %s и т.д. из текста"""
+    # Регулярное выражение для поиска подстановок
+    pattern = r'%[diouxXeEfFgGaAcspn%]'
+    return re.findall(pattern, text)
+
 def write_mode(input_file, index, new_translation):
     """Режим записи: записывает текст в поле translation с проверками"""
     if index < 0:
@@ -39,6 +46,26 @@ def write_mode(input_file, index, new_translation):
     max_length = int(item['size'], 16) / 2
     if len(new_translation) > max_length:
         print(f"Ошибка: новый перевод слишком длинный (максимум {max_length} символов)")
+        sys.exit(1)
+    
+    # Проверка соответствия подстановок
+    original_placeholders = extract_placeholders(item['original'])
+    translation_placeholders = extract_placeholders(new_translation)
+    
+    if original_placeholders != translation_placeholders:
+        print(f"Ошибка: несовпадение подстановок между оригиналом и переводом")
+        print(f"Оригинал: {original_placeholders}")
+        print(f"Перевод: {translation_placeholders}")
+        sys.exit(1)
+    
+    # Проверка количества переносов строк
+    original_newlines = item['original'].count('\n')
+    translation_newlines = new_translation.count('\n')
+    
+    if original_newlines != translation_newlines:
+        print(f"Ошибка: несовпадение количества переносов строк между оригиналом и переводом")
+        print(f"Оригинал: {original_newlines} переносов")
+        print(f"Перевод: {translation_newlines} переносов")
         sys.exit(1)
     
     item['translation'] = new_translation
