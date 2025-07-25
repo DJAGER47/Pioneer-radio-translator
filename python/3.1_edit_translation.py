@@ -45,7 +45,7 @@ def write_mode(input_file, index, new_translation):
     
     max_length = int(item['size'], 16) / 2
     if len(new_translation) > max_length:
-        print(f"Ошибка: новый перевод слишком длинный (максимум {max_length} символов)")
+        print(f"Ошибка: новый перевод длинный-максимум {max_length}")
         sys.exit(1)
     
     # Проверка соответствия подстановок
@@ -53,9 +53,9 @@ def write_mode(input_file, index, new_translation):
     translation_placeholders = extract_placeholders(new_translation)
     
     if original_placeholders != translation_placeholders:
-        print(f"Ошибка: несовпадение подстановок между оригиналом и переводом")
-        print(f"Оригинал: {original_placeholders}")
-        print(f"Перевод: {translation_placeholders}")
+        print(f"Ошибка: несовпадение подстановок между оригиналом и переводом"
+              f"\nОригинал: {original_placeholders}"
+              f"\nПеревод: {translation_placeholders}")
         sys.exit(1)
     
     # Проверка количества переносов строк
@@ -63,9 +63,9 @@ def write_mode(input_file, index, new_translation):
     translation_newlines = new_translation.count('\n')
     
     if original_newlines != translation_newlines:
-        print(f"Ошибка: несовпадение количества переносов строк между оригиналом и переводом")
-        print(f"Оригинал: {original_newlines} переносов")
-        print(f"Перевод: {translation_newlines} переносов")
+        print(f"Ошибка: несовпадение количества переносов"
+              f"\nОригинал: {original_newlines}"
+              f"\nПеревод: {translation_newlines}")
         sys.exit(1)
     
     item['translation'] = new_translation
@@ -73,7 +73,7 @@ def write_mode(input_file, index, new_translation):
     with open(input_file, 'w', encoding='utf-16') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
-    print(f"Запись успешна! Начинай переводить запись {index+1}")
+    print(f"Успешно")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Редактор переводов в JSON файле')
