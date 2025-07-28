@@ -45,7 +45,7 @@ def write_mode(input_file, index, new_translation):
     
     max_length = int(item['size'], 16) / 2
     if len(new_translation) > max_length:
-        print(f"Ошибка: новый перевод длинный-максимум {max_length}")
+        print(f"Новый перевод длинный-максимум {max_length}")
         sys.exit(1)
     
     # Проверка соответствия подстановок
@@ -53,7 +53,7 @@ def write_mode(input_file, index, new_translation):
     translation_placeholders = extract_placeholders(new_translation)
     
     if original_placeholders != translation_placeholders:
-        print(f"Ошибка: несовпадение подстановок между оригиналом и переводом"
+        print(f"Несовпадение подстановок между оригиналом и переводом"
               f"\nОригинал: {original_placeholders}"
               f"\nПеревод: {translation_placeholders}")
         sys.exit(1)
@@ -63,7 +63,7 @@ def write_mode(input_file, index, new_translation):
     translation_newlines = new_translation.count('\n')
     
     if original_newlines != translation_newlines:
-        print(f"Ошибка: несовпадение количества переносов"
+        print(f"Несовпадение количества переносов"
               f"\nОригинал: {original_newlines}"
               f"\nПеревод: {translation_newlines}")
         sys.exit(1)
@@ -86,11 +86,11 @@ if __name__ == "__main__":
     
     # Проверяем, что указан один из режимов -r или -w
     if not args.read and not args.write:
-        print("Ошибка: необходимо указать один из режимов -r или -w")
+        print("Необходимо указать один из режимов -r или -w")
         sys.exit(1)
     
     if args.read and args.write:
-        print("Ошибка: нельзя одновременно использовать режимы -r и -w")
+        print("Нельзя одновременно использовать режимы -r и -w")
         sys.exit(1)
     
     if args.read:
