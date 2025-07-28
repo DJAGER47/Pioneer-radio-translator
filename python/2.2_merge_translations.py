@@ -1,5 +1,6 @@
 import json
 import argparse
+from collections import OrderedDict
 
 def merge_translations(original_path, translated_path, output_path):
     """
@@ -17,9 +18,12 @@ def merge_translations(original_path, translated_path, output_path):
                  for item in translations if item['translation']}
 
     # Добавляем переводы в оригинальный файл
-    for item in originals:
+    for idx, item in enumerate(originals):
         if item['original'] in trans_dict:
             item['translation'] = trans_dict[item['original']]
+        new_item = OrderedDict([('index', idx)])
+        new_item.update(item)
+        originals[idx] = new_item
 
     # Сохраняем результат
     with open(output_path, 'w', encoding='utf-16-le') as f:
