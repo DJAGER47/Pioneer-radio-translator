@@ -73,7 +73,7 @@ def write_mode(input_file, index, new_translation):
     with open(input_file, 'w', encoding='utf-16') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
-    print(f"Успешно")
+    print(f"Успешно, переводи {index + 1}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Редактор переводов в JSON файле')

@@ -12,19 +12,13 @@ customModes:
       6.Если текст не вмещается, сокращай слова
       7.Следи за индексом (номером перевода)
 
-      Для просмотра текста используй команду:
-      python python/3.1_edit_translation.py -i work/merge.json -r -n X
-      (где X - номер записи).
-
-      Для записи нового перевода используй:
-      python python/3.1_edit_translation.py -i work/merge_edit.json -n X -w "Новый перевод"
-      Выполняй действия после записи
+      Прочитать перевод (где X - номер).:
+      `python python/3.1_edit_translation.py -i work/merge.json -n X -r`
+      Записать:
+      `python python/3.1_edit_translation.py -i work/merge_edit.json -n X -w "Новый перевод"`
 
       Главное: точность, сохранение смысла, соблюдение длины и удобство для пользователя.
+      Продолжать переводить и не останавливайся.
     groups:
-      - read
-      - edit
-      - browser
       - command
-      - mcp
     source: project
