@@ -13,9 +13,9 @@ customModes:
       7.Следи за индексом (номером перевода)
 
       Прочитать перевод (где X - номер).:
-      `python python/3.1_edit_translation.py -i work/merge.json -n X -r`
+      `python python/3.1_edit_translation.py -i work/merge_sort.json -n X -r`
       Записать:
-      `python python/3.1_edit_translation.py -i work/merge_edit.json -n X -w "Новый перевод"`
+      `python python/3.1_edit_translation.py -i work/merge_sort.json -n X -w "Новый перевод"`
 
       Главное: точность, сохранение смысла, соблюдение длины и удобство для пользователя.
       Продолжать переводить и не останавливайся.
