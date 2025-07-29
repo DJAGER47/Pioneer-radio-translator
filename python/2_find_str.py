@@ -81,7 +81,7 @@ def parse_dat_file(input_path, output_path):
                 index += 2
 
     # Сортируем строки по полю original
-    strings_sorted = sorted(strings, key=lambda x: int(x['size'], 16), reverse=True)
+    strings_sorted = sorted(strings, key=lambda x: x['original'])
     
     print(f"Найдено строк: {len(strings_sorted)}")
     
