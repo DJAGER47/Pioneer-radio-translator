@@ -120,7 +120,7 @@ unsigned int checksum32(const unsigned char *data, int len) {
   return (crc);
 }
 
-int main(int argc, char *argv[]) {
+int main(void) {
   header_typeprg h_prg;
   header_type h;
   FILE *fin1, *fout1;
@@ -179,13 +179,13 @@ int main(int argc, char *argv[]) {
   memcpy(h_prg.ffs4, ffs, sizeof(h_prg.ffs4));
   memcpy(h_prg.ffs5, ffs, sizeof(h_prg.ffs5));
   memcpy(h_prg.ffs6, ffs, sizeof(h_prg.ffs6));
-  printf("Header len = %lld \n", sizeof(h_prg));
+  printf("Header len = %zu \n", sizeof(h_prg));
 
   h_prg.ver_crc = checksum32((unsigned char *)&h_prg, sizeof(h_prg) - 4);
   printf("Ver CRC = %2x \n", h_prg.ver_crc);
 
   unsigned char *p2 = malloc(h_prg.file_length + sizeof(h_prg));
-  printf("PRG len = %lld \n", sizeof(p2));
+  printf("PRG len = %zu \n", sizeof(p2));
 
   fout1 = fopen(datfile, "wb");
   fwrite(&h_prg, 1, sizeof(h_prg), fout1);
