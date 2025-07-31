@@ -131,11 +131,16 @@ def main():
     header_ver = HeaderTypeVer()
     header_prg = HeaderTypePrg()
 
-    dir_work = "work/"
-    nb0_file = dir_work + "output.nb0"
+    out_dir = "out/"
+    nb0_file = "work/patched/output.nb0"
     dir_name = "PLATFORM"
-    plt_name = "PS140PLT.PRG"
-    version, volume, pltdate = extract_file_metadata(dir_work + "PS140PLT.PRG")
+    prg_name = "PS140PLT.PRG"
+    ver_name = "PS140PLT.VER"
+    version, volume, pltdate = extract_file_metadata("work/" + prg_name)
+
+    print(f"Версия: 0x{version:08X}")
+    print(f"Том: {volume}")
+    print(f"Дата: {pltdate}")
 
     # -------------------------------------------------------------------------
     # PRG file creation
@@ -145,29 +150,29 @@ def main():
     header_prg.file_crc = checksum32(nb0file_byte, header_prg.file_length)
     header_prg.version = version
     header_prg.volume = volume
-    header_prg.filename[: len(plt_name)] = plt_name.encode("ascii")
+    header_prg.filename[: len(prg_name)] = prg_name.encode("ascii")
     header_prg.filedate[: len(pltdate)] = pltdate.encode("ascii")
     header_prg.file_length_prg = header_prg.file_length
     header_prg.file_crc1 = header_prg.file_crc
 
-    with open(plt_name, "wb") as f:
+    with open(out_dir + prg_name, "wb") as f:
         f.write(bytearray(bytes(header_prg)))
         f.write(nb0file_byte)
 
     # -------------------------------------------------------------------------
     # VER file creation
-    header_ver.version(version)
-    header_ver.volume(volume)
+    header_ver.set_version(version)
+    header_ver.set_volume(volume)
     header_ver.nb0_length = header_prg.file_length
     header_ver.nb0_crc = header_prg.file_crc
     header_ver.dirname[: len(dir_name) * 2] = dir_name.encode("utf-16le")
-    header_ver.filename[: len(plt_name) * 2] = plt_name.encode("utf-16le")
-    header_ver.file_length = os.path.getsize(plt_name)
-    with open(plt_name, "rb") as f:
-        plt_byte = f.read()
-    header_ver.file_crc = crc32b(plt_byte, header_ver.file_length)
+    header_ver.filename[: len(prg_name) * 2] = prg_name.encode("utf-16le")
+    header_ver.file_length = os.path.getsize(out_dir + prg_name)
+    with open(out_dir + prg_name, "rb") as f:
+        prg_byte = f.read()
+    header_ver.file_crc = crc32b(prg_byte, header_ver.file_length)
 
-    with open("PS140PLT.VER", "wb") as f:
+    with open(out_dir + ver_name, "wb") as f:
         f.write(bytearray(bytes(header_ver)))
 
 
