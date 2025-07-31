@@ -1,41 +1,41 @@
 def hex2str(input_num, output):
     tmp = f"{input_num:08X}"
     for i in range(8):
-        output[2*i] = ord(tmp[i])
+        output[2 * i] = ord(tmp[i])
+
 
 def extract_offset_blocklen(file_path):
     """Извлекает OFFSET и BLOCK_LEN из бинарного файла"""
-    with open(file_path, 'rb') as f:
+    with open(file_path, "rb") as f:
         # Читаем весь файл
         data = f.read()
-        
+
         # Получаем OFFSET (4 байта с позиции 8)
-        offset = int.from_bytes(data[8:12], byteorder='little')
-        
+        offset = int.from_bytes(data[8:12], byteorder="little")
+
         # Вычисляем BLOCK_LEN
         block_len = len(data) - offset
-        # use
-        #     offset, block_len = extract_offset_blocklen("work/initDB.dat")
-        #     print(f"OFFSET: 0x{offset:08X}")
-        #     print(f"BLOCK_LEN: 0x{block_len:08X}")
         return offset, block_len
+
 
 def checksum32(data, length):
     crc = 0
     tmp = 0
     length = length // 4
-    
+
     if length > 0:
         for i in range(length):
             tmp = 0
             for j in range(4):
-                tmp |= (data[i*4 + j] << (8 * j))
+                tmp |= data[i * 4 + j] << (8 * j)
             crc += tmp
-    
+
     result = crc & 0xFFFFFFFF
     return result
 
+
 def crc32b(data, length):
+    # fmt: off
     crc32_table = [
         0x00000000, 0x77073096, 0xEE0E612C, 0x990951BA, 0x076DC419, 0x706AF48F, 0xE963A535, 0x9E6495A3, 0x0EDB8832, 0x79DCB8A4, 0xE0D5E91E, 0x97D2D988,
         0x09B64C2B, 0x7EB17CBD, 0xE7B82D07, 0x90BF1D91, 0x1DB71064, 0x6AB020F2, 0xF3B97148, 0x84BE41DE, 0x1ADAD47D, 0x6DDDE4EB, 0xF4D4B551, 0x83D385C7,
@@ -60,6 +60,7 @@ def crc32b(data, length):
         0xBDBDF21C, 0xCABAC28A, 0x53B39330, 0x24B4A3A6, 0xBAD03605, 0xCDD70693, 0x54DE5729, 0x23D967BF, 0xB3667A2E, 0xC4614AB8, 0x5D681B02, 0x2A6F2B94,
         0xB40BBE37, 0xC30C8EA1, 0x5A05DF1B, 0x2D02EF8D
     ]
+    # fmt: on
 
     if isinstance(data, bytearray):
         data = bytes(data)
@@ -68,3 +69,25 @@ def crc32b(data, length):
     for i in range(length):
         crc = (crc >> 8) ^ crc32_table[(crc ^ data[i]) & 0xFF]
     return (~crc) & 0xFFFFFFFF
+
+
+def extract_file_metadata(file_path):
+    """Извлекает метаданные из файла:
+    - version (uint32 по адресу 0x12)
+    - volume (uint32 по адресу 0x16)
+    - pltdate (строка по адресу 0x28 до нулевого байта)
+    """
+    with open(file_path, "rb") as f:
+        data = f.read()
+
+        version = int.from_bytes(data[0x0C:0x10], byteorder="little")
+        volume = int.from_bytes(data[0x10:0x14], byteorder="little")
+        # Читаем pltdate (строка с 0x28 до нулевого байта)
+        pltdate_bytes = bytearray()
+        for b in data[0x28:]:
+            if b == 0:
+                break
+            pltdate_bytes.append(b)
+        pltdate = pltdate_bytes.decode("ascii")
+
+        return version, volume, pltdate
