@@ -93,7 +93,7 @@ def parse_dat_file(input_path, output_path):
 
     print(f"Найдено строк: {len(strings_sorted)}")
 
-    with open(output_path, "w", encoding="utf-16-le") as fout:
+    with open(output_path, "w", encoding="utf-16le") as fout:
         json.dump(strings_sorted, fout, ensure_ascii=False, indent=4)
 
 
