@@ -29,13 +29,11 @@ echo "--Перегоняем в json базу с 4pda (не обязательн
 python 2.1_txt2json.py -i translation.txt -o "$WORK_DIR/4pda_translation.json"
 
 echo "--Подсовываем в текст нашей магнитолы переводы из 4pda (не обязательно)"
-python 2.2a_merge_translations.py -i "$WORK_DIR/finded_str.json" -t "$WORK_DIR/4pda_translation.json" -o "$WORK_DIR/merge_4pda.json"
+python 2.2_merge_translations.py -i "$WORK_DIR/finded_str.json" -t "$WORK_DIR/4pda_translation.json" -o "$WORK_DIR/merge_4pda.json"
 
 echo "--Добавляем к пустым переводам, перевод нейросетки"
-python 2.2b_add_translations.py -i "$WORK_DIR/merge_4pda.json" -t "translate_gpt.json" -o "$WORK_DIR/merge_4pda_gpt.json"
+python 2.3_add_translations.py -i "$WORK_DIR/merge_4pda.json" -t "translate_gpt.json" -o "$WORK_DIR/merge_4pda_gpt.json"
 
-# Скрипт для нейросети и перевода
-# python 2.3_edit_translation.py -n 0 -i work/merge_4pda_gpt.json -o work/merge_edit.json
 
 echo "--Проверяем перевод"
 python 2.4a_check_translations.py -i "$WORK_DIR/merge_4pda_gpt.json"
