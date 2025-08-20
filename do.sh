@@ -38,7 +38,10 @@ python 2.2b_add_translations.py -i "$WORK_DIR/merge_4pda.json" -t "translate_gpt
 # python 2.3_edit_translation.py -n 0 -i work/merge_4pda_gpt.json -o work/merge_edit.json
 
 echo "--Проверяем перевод"
-python 2.4_check_translations.py -i "$WORK_DIR/merge_4pda_gpt.json"
+python 2.4a_check_translations.py -i "$WORK_DIR/merge_4pda_gpt.json"
+
+echo "--Проверяем длинну строк (опционально)"
+python 2.4b_check_length.py -i "$WORK_DIR/merge_4pda_gpt.json"
 
 echo "--Подменяем переводы в базе данных"
 python 3_translate.py -i "$WORK_DIR/initDB_original.dat" -t "$WORK_DIR/merge_4pda_gpt.json" -o "$PATCHED_DIR/initDB.dat"
