@@ -34,7 +34,6 @@ python 2.2_merge_translations.py -i "$WORK_DIR/finded_str.json" -t "$WORK_DIR/4p
 echo "--Добавляем к пустым переводам, перевод нейросетки"
 python 2.3_add_translations.py -i "$WORK_DIR/merge_4pda.json" -t "translate_gpt.json" -o "$WORK_DIR/merge_4pda_gpt.json"
 
-
 echo "--Проверяем перевод"
 python 2.4a_check_translations.py -i "$WORK_DIR/merge_4pda_gpt.json"
 
