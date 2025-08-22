@@ -15,7 +15,7 @@ customModes:
       Прочитать перевод (где X - номер):
       `python gpt_edit_translation.py -i translate_gpt.json -n X -r`
       Записать:
-      `python 2.gpt_edit_translation.py -i translate_gpt.json -n X -w "Новый перевод"`
+      `python gpt_edit_translation.py -i translate_gpt.json -n X -w "Новый перевод"`
 
       Главное: точность, сохранение смысла, соблюдение длины и удобство для пользователя.
     groups:
