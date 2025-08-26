@@ -131,7 +131,7 @@ def main():
     header_ver = HeaderTypeVer()
     header_prg = HeaderTypePrg()
 
-    out_dir = "out/"
+    out_dir = "work/out/"
     nb0_file = "work/patched/output.nb0"
     dir_name = "PLATFORM"
     prg_name = "PS140PLT.PRG"
